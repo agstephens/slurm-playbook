@@ -36,6 +36,15 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
 
 The playbook attempts to do this for you.
 
+## Note about Slurm (and associated) RPMs
+
+The RPMs are prepared by STFC colleagues, hosted inside the STFC firewall at:
+
+http://yumit.esc.rl.ac.uk/raltools/7/RPMS/
+
+We copy them to our public server at:
+
+http://gws-access.jasmin.ac.uk/public/cedaproc/rpms
 
 ## Test Slurm is working
 

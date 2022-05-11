@@ -1,9 +1,9 @@
 ---
 # SLURM version to install (in case of RH systems)
-slurm_version: 19.05.5
+slurm_version: 21.08.8-2
 # Flag to download remote RPMs
 download_remote_rpms: true
-rpm_base_url: http://gws-access.jasmin.ac.uk/public/cedaproc/rpms/
+rpm_base_url: http://gws-access.jasmin.ac.uk/public/cedaproc/rpms
 # Type of node to install: front or wn
 slurm_type_of_node: front
 # Name of the SLURM server

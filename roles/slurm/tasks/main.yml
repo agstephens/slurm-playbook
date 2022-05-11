@@ -14,45 +14,49 @@
 #      name: http://yumit.jc.rl.ac.uk/yum/jasmin/7/RPMS/jasmin-repo-1.2-2.el7.noarch.rpm
 #      state: present
 
-  - stat: path=/etc/yum.repos.d/ral-tools.repo
-    register: raltools_enabled
+#  - stat: path=/etc/yum.repos.d/ral-tools.repo
+#    register: raltools_enabled
 
-  - name: make sure raltools repo is available
-    yum: name=http://yumit.esc.rl.ac.uk/raltools/7 state=present
-    when: (not raltools_enabled.stat.exists) and (not download_remote_rpms)
+#  - name: make sure raltools repo is available
+#    uri:
+#      url: http://yumit.esc.rl.ac.uk/raltools/7/
+#      timeout: 1
+#      return_content: yes
+#    when: (not raltools_enabled.stat.exists) and (not download_remote_rpms)
 
-  - name: Install rpm slurm packages (common) via Yum
-    yum:
-      name:
-        - "slurm-{{slurm_version}}"
-        - "slurm-contribs-{{slurm_version}}"
-        - "slurm-devel-{{slurm_version}}"
-        - "slurm-example-configs-{{slurm_version}}"
-        - "slurm-openlava-{{slurm_version}}"
-        - "slurm-perlapi-{{slurm_version}}"
-        - "slurm-slurmctld-{{slurm_version}}"
-        - "slurm-slurmd-{{slurm_version}}"
-      state: present
-    when: (not slurm_installed.stat.exists) and (not download_remote_rpms)
+#  - name: Install rpm slurm packages (common) via Yum
+#    yum:
+#      name:
+#        - "slurm-{{slurm_version}}"
+#        - "slurm-contribs-{{slurm_version}}"
+#        - "slurm-devel-{{slurm_version}}"
+#        - "slurm-example-configs-{{slurm_version}}"
+#        - "slurm-openlava-{{slurm_version}}"
+#        - "slurm-perlapi-{{slurm_version}}"
+#        - "slurm-slurmctld-{{slurm_version}}"
+#        - "slurm-slurmd-{{slurm_version}}"
+#      state: present
+#    when: (not slurm_installed.stat.exists) and (not download_remote_rpms)
 
   - name: Define a list of RPMs to download and install when using remotely
     set_fact:
       rpm_files: >
-        ["slurm-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-contribs-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-devel-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-example-configs-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-openlava-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-perlapi-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-slurmctld-{{slurm_version}}-1.el7.x86_64.rpm",
-         "slurm-slurmd-{{slurm_version}}-1.el7.x86_64.rpm",
-         "sct-nvidia-builder-nvml-418.87.01-1.el7.x86_64.rpm"]
+        ["slurm-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-contribs-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-devel-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-example-configs-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-perlapi-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-openlava-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-slurmctld-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-slurmd-{{slurm_version}}.el7.x86_64.rpm",
+         "sct-nvidia-builder-nvml-460.73.01-1.el7.x86_64.rpm"]
     when: (not slurm_installed.stat.exists) and (download_remote_rpms)
 
   - name: Download RPMs to /tmp/
     get_url:
       url:  "{{ rpm_base_url }}/{{ item }}"
       dest: "/tmp/{{ item }}"
+      validate_certs: no
     with_items:
       - "{{ rpm_files }}"
     when: (not slurm_installed.stat.exists) and (download_remote_rpms)
