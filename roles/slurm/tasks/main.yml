@@ -48,16 +48,19 @@
          "slurm-slurmctld-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-slurmd-{{slurm_version}}.el7.x86_64.rpm",
          "sct-nvidia-builder-nvml-460.73.01-1.el7.x86_64.rpm"]
-    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+    when: (not slurm_installed.stat.exists)
 
 # no longer needed:
 # "slurm-devel-{{slurm_version}}.el7.x86_64.rpm",
 # "slurm-openlava-{{slurm_version}}.el7.x86_64.rpm",
+#
+  - name: create directory for RPMs
+    file: path={{ rpm_dir }} state=directory owner=root group=root
 
-  - name: Download RPMs to /tmp/
+  - name: Download RPMs
     get_url:
       url:  "{{ rpm_base_url }}/{{ item }}"
-      dest: "/tmp/{{ item }}"
+      dest: "{{ rpm_dir }}/{{ item }}"
       validate_certs: no
     with_items:
       - "{{ rpm_files }}"
@@ -65,18 +68,18 @@
 
   - name: Install RPMs from downloaded files
     yum:
-      name: "/tmp/{{ item }}"
+      name: "{{ rpm_dir }}/{{ item }}"
     with_items:
       - "{{ rpm_files }}"
-    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+    when: (not slurm_installed.stat.exists)
 
-  - name: Remove downloaded RPMs from /tmp/
-    file:
-      path: "/tmp/{{ item }}"
-      state: absent
-    with_items:
-      - "{{ rpm_files }}"
-    when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+#  - name: Remove downloaded RPMs
+#    file:
+#      path: "{{ rpm_dir}}/{{ item }}"
+#      state: absent
+#    with_items:
+#      - "{{ rpm_files }}"
+#    when: (not slurm_installed.stat.exists) and (download_remote_rpms) and (false)
 
   - name: copy hostname script to nodes
     copy:
