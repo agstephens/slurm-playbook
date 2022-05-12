@@ -43,14 +43,16 @@
       rpm_files: >
         ["slurm-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-contribs-{{slurm_version}}.el7.x86_64.rpm",
-         "slurm-devel-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-example-configs-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-perlapi-{{slurm_version}}.el7.x86_64.rpm",
-         "slurm-openlava-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-slurmctld-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-slurmd-{{slurm_version}}.el7.x86_64.rpm",
          "sct-nvidia-builder-nvml-460.73.01-1.el7.x86_64.rpm"]
     when: (not slurm_installed.stat.exists) and (download_remote_rpms)
+
+# no longer needed:
+# "slurm-devel-{{slurm_version}}.el7.x86_64.rpm",
+# "slurm-openlava-{{slurm_version}}.el7.x86_64.rpm",
 
   - name: Download RPMs to /tmp/
     get_url:
@@ -103,3 +105,5 @@
 
   - name: Include "{{slurm_type_of_node}}" SLURM recipe
     include: "{{slurm_type_of_node}}.yaml"
+
+
