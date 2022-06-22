@@ -9,6 +9,7 @@ rpm_dir: /usr/local/src/slurm-rpms
 slurm_type_of_node: front
 # Name of the SLURM server
 slurm_server_name: slurmserver
+slurm_server_name_for_worker_configs: slurmserver
 # IP address of the SLURM server
 slurm_server_ip: 127.0.0.1
 # List of the name of the WNs

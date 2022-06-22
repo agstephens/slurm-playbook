@@ -43,6 +43,7 @@
       rpm_files: >
         ["slurm-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-contribs-{{slurm_version}}.el7.x86_64.rpm",
+         "slurm-devel-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-example-configs-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-perlapi-{{slurm_version}}.el7.x86_64.rpm",
          "slurm-slurmctld-{{slurm_version}}.el7.x86_64.rpm",
