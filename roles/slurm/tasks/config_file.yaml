@@ -34,4 +34,3 @@
   - name: configure AccountingStoreFlags of slurm.conf - version 21
     lineinfile: dest={{ SLURM_CONF }} regexp='AccountingStoreFlags=' line='AccountingStoreFlags=job_comment' state=present
     when: (slurm_version != '19.05.5-1')
-    
