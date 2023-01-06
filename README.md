@@ -14,6 +14,7 @@ Run the playbook:
 
 ```
 ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
 ```
 
 ## Cluster installation
@@ -63,11 +64,23 @@ squeue # to see if they are running/completing
 
 ## Vagrant with cluster
 
+## Vagrant with cluster
+
 Use the `Vagrantfile` to setup up a cluster:
 
 ```
 $ vagrant up
 $ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster.yml playbook.yml
+$ vagrant ssh slurmmaster
+```
+
+### Vagrant with single node
+
+Use the `Vagrantfile` to setup up a single node on `slurmmaster`:
+
+```
+$ vagrant up slurmmaster
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-single.yml playbook.yml
 $ vagrant ssh slurmmaster
 ```
 
