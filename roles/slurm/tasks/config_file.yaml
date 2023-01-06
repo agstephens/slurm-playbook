@@ -27,3 +27,10 @@
     lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=slow Nodes={{ slow_node }} Default=YES MaxTime=INFINITE State=UP' state=present
     when: (slow_node is defined)
 
+  - name: configure AccountingStorageType of slurm.conf - version 19
+    lineinfile: dest={{ SLURM_CONF }} regexp='AccountingStoreFlags=' line='AccountingStorageType=accounting_storage/none' state=present
+    when: (slurm_version == '19.05.5-1')
+
+  - name: configure AccountingStoreFlags of slurm.conf - version 21
+    lineinfile: dest={{ SLURM_CONF }} regexp='AccountingStoreFlags=' line='AccountingStoreFlags=job_comment' state=present
+    when: (slurm_version != '19.05.5-1')

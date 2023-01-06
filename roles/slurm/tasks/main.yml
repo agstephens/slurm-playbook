@@ -1,4 +1,6 @@
 ---
+  - include: clean.yml
+    when: on_clean
 
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/bin/srun
