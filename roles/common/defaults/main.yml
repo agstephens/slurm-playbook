@@ -1,0 +1,6 @@
+---
+# cluster installation
+on_cluster: true
+
+# clean option to upgrade
+on_clean: false

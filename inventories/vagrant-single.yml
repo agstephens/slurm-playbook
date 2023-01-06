@@ -10,9 +10,12 @@ all:
       hosts:
         192.168.50.44:
   vars:
-    slurm_wn_cpus: 1
+    slurm_wn_cpus: 2
     slurm_server_name: 'slurmmaster'
     slurm_server_ip: '192.168.50.44'
     slurm_wn_nodenames: ['{{ slurm_server_name }}']
     etc_hosts_entries: ['192.168.50.44 slurmmaster slurmmaster.localdomain']
-
+    set_host_name: '{{ slurm_server_name }}'
+    max_run_time: '23:59:59'
+    on_cluster: false
+    on_clean: true

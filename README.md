@@ -6,20 +6,30 @@ Ansible playbook for Slurm
 
 Create an inventory file, copying structure of:
 
-`inventories/vagrant-single.yml`
+```
+cp inventories/vagrant-single.yml custom.yml
+```
 
 Run the playbook:
 
 ```
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventories/vagrant-single.yml playbook.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
 ```
 
 ## Cluster installation
 
 Create an inventory file, copying structure of:
 
-`inventories/vagrant-cluster.yml`
+```
+cp inventories/vagrant-cluster.yml custom.yml
+```
 
+Run the playbook:
+
+```
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i custom.yml playbook.yml
+```
 
 ## Note about Vagrant build
 
@@ -27,6 +37,15 @@ Create an inventory file, copying structure of:
 
 The playbook attempts to do this for you.
 
+## Note about Slurm (and associated) RPMs
+
+The RPMs are prepared by STFC colleagues, hosted inside the STFC firewall at:
+
+http://yumit.esc.rl.ac.uk/raltools/7/RPMS/
+
+We copy them to our public server at:
+
+http://gws-access.jasmin.ac.uk/public/cedaproc/rpms
 
 ## Test Slurm is working
 
@@ -43,10 +62,52 @@ squeue # to see if they are running/completing
 
 ## Test with vagrant file
 
+## Vagrant with cluster
+
+## Vagrant with cluster
+
 Use the `Vagrantfile` to setup up a cluster:
 
 ```
 $ vagrant up
 $ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-cluster.yml playbook.yml
 $ vagrant ssh slurmmaster
+```
+
+### Vagrant with single node
+
+Use the `Vagrantfile` to setup up a single node on `slurmmaster`:
+
+```
+$ vagrant up slurmmaster
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-single.yml playbook.yml
+$ vagrant ssh slurmmaster
+```
+
+### Vagrant with single node
+
+Use the `Vagrantfile` to setup up a single node on `slurmmaster`:
+
+```
+$ vagrant up slurmmaster
+$ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u vagrant --private-key=~/.vagrant.d/insecure_private_key -i inventories/vagrant-single.yml playbook.yml
+$ vagrant ssh slurmmaster
+```
+
+## Firewall changes required
+
+If the firewall is not automatically opened in iptables then you will need these rules:
+
+ 1. On the master node:
+
+```
+# Slurm ports
+-A INPUT                                       -p tcp -m multiport --dports 6817,6818      -j ACCEPT
+```
+
+ 2. On the worker nodes:
+
+```
+# Slurm ports
+-A INPUT                                       -p tcp -m multiport --dports 6817,6818      -j ACCEPT
 ```

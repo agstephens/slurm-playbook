@@ -8,7 +8,7 @@ ControlMachine={{ slurm_server_name }}
 #BackupAddr=
 #
 AuthType=auth/munge
-CacheGroups=0
+#CacheGroups=0
 #CheckpointType=checkpoint/blcr
 CryptoType=crypto/munge
 #DisableRootJobs=NO
@@ -92,12 +92,13 @@ Waittime=0
 #
 # SCHEDULING
 #DefMemPerCPU=0
-FastSchedule=1
+#FastSchedule=1
 #MaxMemPerCPU=0
 #SchedulerRootFilter=1
 #SchedulerTimeSlice=30
-SchedulerType=sched/backfill
-SchedulerPort=7321
+#SchedulerType=sched/backfill
+SchedulerType=sched/builtin
+#SchedulerPort=7321
 #SelectType=select/linear
 SelectType=select/cons_res
 #SelectTypeParameters=
@@ -124,9 +125,9 @@ SelectTypeParameters=CR_Core
 #AccountingStorageLoc=
 #AccountingStoragePass=
 #AccountingStoragePort=
-AccountingStorageType=accounting_storage/none
+AccountingStoreFlags=job_comment
 #AccountingStorageUser=
-AccountingStoreJobComment=YES
+#AccountingStoreJobComment=YES
 ClusterName=cluster
 #DebugFlags=
 #JobCompHost=
@@ -160,5 +161,5 @@ SlurmdLogFile={{ slurmd_log }}
 # COMPUTE NODES
 
 NodeName={{ slurm_wn_nodenames }} CPUs={{ slurm_wn_cpus }} State=UNKNOWN
-PartitionName=fast Nodes={{ slurm_wn_nodenames }} Default=YES MaxTime=INFINITE State=UP
+PartitionName=fast Nodes={{ slurm_wn_nodenames }} Default=YES MaxTime={{ max_run_time }} State=UP
 
